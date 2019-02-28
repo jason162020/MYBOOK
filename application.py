@@ -20,6 +20,7 @@ app = Flask(__name__)
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+#app.config["DATABASE_URL"]="postgres://iorynocojkwjgc:d6104889e6eeee320700f04b6012980b77506087bded1c13ed5e9d155c97a245@ec2-107-22-162-8.compute-1.amazonaws.com:5432/d22b8flhk40kgi"
 Session(app)
 
 # Set up database
@@ -117,12 +118,13 @@ def book_details(book_id):
 		except Exception as e:
 			message=str(e) # in case of eny error
 
-	
+
 	all_reviews=db.execute("SELECT reviews.rating,reviews.comment,users.username FROM reviews INNER JOIN users ON reviews.user_id=users.id WHERE reviews.isbn=:isbn",{'isbn':details.isbn}).fetchall()
 	return render_template('book_details.html',avg_ratings=avg_ratings,num_ratings=num_ratings,details=details,message=message,all_reviews=all_reviews)
 
 
 
 
-
+if __name__ == '__main__':
+    app.run()
 
